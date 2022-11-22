@@ -1,0 +1,14 @@
+usb 1-5: new high speed USB device using ehci_hcd and address 3
+usb 1-5: configuration #1 chosen from 1 choice
+scsi0 : SCSI emulation for USB Mass Storage devices
+usb-storage: device found at 3
+usb-storage: waiting for device to settle before scanning
+scsi 0:0:0:0: Direct-Access ChipsBnk SD/MMCReader 4081 PQ: 0 ANSI: 2
+sd 0:0:0:0: [sda] 499712 512-byte hardware sectors (256 MB)
+sd 0:0:0:0: [sda] Write Protect is off
+sd 0:0:0:0: [sda] Mode Sense: 0b 00 00 08
+sd 0:0:0:0: [sda] Assuming drive cache: write through
+sd 0:0:0:0: [sda] 499712 512-byte hardware sectors (256 MB)
+sd 0:0:0:0: [sda] Write Protect is off
+sd 0:0:0:0: [sda] Mode Sense: 0b 00 00 08
+sd 0:0:0:0: [sda] Assuming drive c

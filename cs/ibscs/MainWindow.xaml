@@ -1,0 +1,84 @@
+﻿<Window x:Class="IbsCs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:IbsCs.Properties"
+        xmlns:Self="clr-namespace:IbsCs"
+        Height="480" MinHeight="480" Width="640" MinWidth="640"
+        Style="{StaticResource BaseWindow}"
+        Title="{x:Static p:Resources.MainWindowTitle}">
+    <Window.Resources>
+        <Self:CountryToVisibilityConverter x:Key="CountryToVisibilityConverter"/>
+        <Self:IcqNumberRule x:Key="IcqNumberRule"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="Close_Executed"/>
+        <CommandBinding Command="Self:Commands.About" Executed="About_Executed"/>
+        <CommandBinding Command="Self:Commands.Load" Executed="Load_Executed"/>
+        <CommandBinding Command="Self:Commands.Save" Executed="Save_Executed"/>
+        <CommandBinding Command="Self:Commands.OpenBrowser" Executed="OpenBrowser_Executed"/>
+        <CommandBinding Command="Self:Commands.AddFoodItem" Executed="AddFoodItem_Executed"/>
+        <CommandBinding Command="Self:Commands.RemoveFoodItem" Executed="RemoveFoodItem_Executed"/>
+    </Window.CommandBindings>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Style="{StaticResource MenuItemFile}">
+                <MenuItem Command="Self:Commands.Load" Style="{StaticResource MenuItemLoad}"/>
+                <MenuItem Command="Self:Commands.Save" Style="{StaticResource MenuItemSave}"/>
+                <Separator/>
+                <MenuItem Command="ApplicationCommands.Close" Style="{StaticResource MenuItemClose}"/>
+            </MenuItem>
+            <MenuItem Style="{StaticResource MenuItemHelp}">
+                <MenuItem Command="Self:Commands.About" Style="{StaticResource MenuItemAbout}"/>
+            </MenuItem>
+        </Menu>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Command="Self:Commands.Load" ContentTemplate="{StaticResource DataTemplateLoad}" Style="{StaticResource BaseButton}"/>
+            <Button Command="Self:Commands.Save" ContentTemplate="{StaticResource DataTemplateSave}" Style="{StaticResource BaseButton}"/>
+            <Button Command="Self:Commands.OpenBrowser" ContentTemplate="{StaticResource DataTemplateOpenBrowser}" Style="{StaticResource BaseButton}"/>
+        </ToolBar>
+        <DockPanel DockPanel.Dock="Top" Margin="5,0">
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="{x:Static p:Resources.Name}" Style="{StaticResource TextBlockSmallCaption}"/>
+                <TextBox Text="{Binding Data.Name, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="{x:Static p:Resources.Surname}" Style="{StaticResource TextBlockSmallCaption}"/>
+                <TextBox Text="{Binding Data.Surname, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="{x:Static p:Resources.Country}" Style="{StaticResource TextBlockSmallCaption}"/>
+                <ComboBox SelectedItem="{Binding Data.Country, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Data.Countries}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="{Binding Data.Country, Converter={StaticResource CountryToVisibilityConverter}}">
+                <TextBlock Text="{x:Static p:Resources.Icq}" Style="{StaticResource TextBlockSmallCaption}"/>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="Data.Icq" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <Self:IcqNumberRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </DockPanel>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left">
+                    <Button Command="Self:Commands.AddFoodItem" ContentTemplate="{StaticResource DataTemplateAddFoodItem}" Style="{StaticResource Button75}"/>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Data.FoodItems}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" VerticalAlignment="Center" Command="Self:Commands.RemoveFoodItem" CommandParameter="{Binding .}" ContentTemplate="{StaticResource DataTemplateRemoveFoodItem}" Style="{StaticResource Button75}"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.FoodTitle}" Style="{StaticResource TextBlockSmallCaption}"/>
+                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="clr-namespace:IbsCs.Properties">
+    <Style x:Key="BaseWindow" TargetType="Window">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+    <Style x:Key="WindowChild" TargetType="Window" BasedOn="{StaticResource BaseWindow}">
+        <Setter Property="ShowInTaskbar" Value="False"/>
+    </Style>
+
+    <Style x:Key="BaseFrameworkElement" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Margin" Value="0,0,1,1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+    <Style x:Key="BaseFrontElement" TargetType="{x:Type FrameworkElement}" BasedOn="{StaticResource BaseFrameworkElement}">
+        <Setter Property="MinWidth" Value="100"/>
+    </Style>
+    <Style x:Key="TextBlockSmallCaption" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseFrontElement}">
+        <Setter Property="Padding" Value="3,3,0,3"/>
+    </Style>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseFrameworkElement}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource BaseFrameworkElement}"/>
+    
+    <Style x:Key="BaseButton" TargetType="Button" BasedOn="{StaticResource BaseFrameworkElement}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+        <Setter Property="Control.ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
+    </Style>
+    <Style x:Key="Button75" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="MinWidth" Value="75"/>
+    </Style>
+</ResourceDictionary>
